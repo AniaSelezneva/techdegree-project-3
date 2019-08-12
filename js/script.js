@@ -2,7 +2,8 @@
 $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
-//add option with a message to color selection
+
+
 $('#color').prepend($('<option value="selection">Please select a T-shirt theme</option>'));
 
 function hideColorsAndShowMessage () {
@@ -17,12 +18,12 @@ $("#color").each (function(element) {
 //when something is chosen from the "Design" menu, "Color" appears normally again
 function showColors() {
   hideColorsAndShowMessage();
-  $("#design").change(function() {   //change in 'design' field
-  $('#remove-me-later').remove();    //remove the 'select theme' message 
+  $("#design").change(function() {   //here is a change in 'design' field
+  $('#remove-me-later').remove();    //remove the message j'select a theme'
 
-      if ($('#design').val() !== "Select Theme") {       //if chosen design value is a real design an not 'select theme' message
+      if ($('#design').val() !== "Select Theme") {   //if chosen design value is a real design an not 'select theme' message
       $("#color").each (function(element) {    
-        $(this).show();                                   //options are shown
+        $(this).show();                              //options are shown
            
       });
     } else {
@@ -30,6 +31,8 @@ function showColors() {
     }
   });
 }
+showColors();
+
 
   function showJSPunsColors (){
  
@@ -55,7 +58,9 @@ function showILoveJSColors () {
 }
 
 $('#design').on ('change', () => {
-  if ($( "#design option:selected" ).val() == 'js puns') { 
+  
+  if ($( "#design option:selected" ).val() == 'js puns') {
+    
     showJSPunsColors();
   } else if ($( "#design option:selected" ).val() == 'heart js') {
     showILoveJSColors();
