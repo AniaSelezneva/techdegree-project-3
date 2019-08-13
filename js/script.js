@@ -4,7 +4,7 @@ $("#name").focus();
 $("form #other-title").css('display', 'none');
 
 
-$('#color').prepend($('<option value="selection">Please select a T-shirt theme</option>'));
+//$('#color').prepend($('<option value="selection">Please select a T-shirt theme</option>'));
 
 function hideColorsAndShowMessage () {
 //hide all the options in color select
@@ -33,7 +33,6 @@ function showColors() {
 }
 showColors();
 
-
   function showJSPunsColors (){
  
   $('#color [value=tomato]').hide();
@@ -58,13 +57,9 @@ function showILoveJSColors () {
 }
 
 $('#design').on ('change', () => {
-  
-  if ($( "#design option:selected" ).val() == 'js puns') {
-    
+  if ($( "#design option:selected" ).val() == 'js puns') { 
     showJSPunsColors();
   } else if ($( "#design option:selected" ).val() == 'heart js') {
     showILoveJSColors();
   }
 })
-  
-
