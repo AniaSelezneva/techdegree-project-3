@@ -3,7 +3,7 @@ $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
 
-$('#color').prepend($('<option id="select-warning">Please select a T-shirt theme</option>'));
+$('#color').prepend($('<option id="select-warning">Please select a color</option>'));
 $('#select-warning').hide();
 
 function hideColorsAndShowMessage () {
