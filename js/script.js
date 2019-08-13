@@ -65,3 +65,74 @@ $('#design').on ('change', () => {
 // reference each checkbox input, as well as the cost, and day and time
 // from each input’s parent `label` element, and store those values in variables, or in an object as
 // key value pairs.
+
+// const $activities = $('.activities input');  //put all the activities into a collection
+// const checkboxCostValues = [];  //array of prices
+// const checkboxInputValues = [];  //array of checkboxes' input values
+
+
+// const totalCost = 0;
+// for ( let i = 0; i< checkboxCostValues.length; i++) {
+//   totalCost += checkboxCostValues(i);
+// }
+
+// //console.log(totalCost);
+
+// // $activities.each(function(index,element) {
+// //   const cost = document.querySelectorAll('.activities input')[index].getAttribute("data-cost");  
+// //   console.log(x);
+// // })
+
+
+
+
+// for ( let i = 0; i < $activities.length; i ++) {   //loop through activities collection
+//   checkboxInputValues.push($activities[i].value);    //add values of each activity to the checkboxInputValues array
+//   const cost = document.querySelectorAll('.activities input')[i].getAttribute("data-cost");  //get attribute 'cost' content
+//   //let num = parseInt(cost, 10);
+//   checkboxCostValues.push(num);   //add each cost to the array of costs
+// }
+
+// console.log(checkboxCostValues);
+
+
+// Create a DOM element, store it in a global variable and append it to the `.activity` section. You
+// can view the elements tab in the Chrome DevTools to check that your element is in the DOM.
+// Create a global variable to store total activity cost — initially set to 0 — don't use const since
+// you want to update this as needed.
+
+const totalCostElement = '<h2></h2>';
+let totalCost = 0;
+$('.activities').append(totalCostElement);   //append new element to the dom
+
+// Add a change event listener to the activity section. Inside the listener, it will be helpful to have
+// a variable to reference the DOM `input` element that was just clicked.
+
+$('.activities').change(function (event) {      //event handler for change events in activities section
+  let cost = $(event.target).attr("data-cost");   //get value of attribute data-cost, which is cost
+  cost = cost.match(/\d+/g);         //removing $ sign, leaving just a number
+  cost = parseInt(cost, 10);
+
+  let isChecked = $(event.target).is(':checked');   //isChecked stores true if target is checked
+
+  if(isChecked) {
+     totalCost += cost;
+  } else {
+    totalCost -= cost;
+  }
+  $('h2').text (`Total: $ ${totalCost}`); //add text with total cost to h2 created above
+})
+
+
+// Get the `data-cost` attribute value of the clicked element stored in the variable above.
+// Since you’ll be performing some simple arithmetic with the activity cost, you’ll need to
+// make sure the value is a number. There are helpful methods for turning strings into
+// numbers, which can be found with a Google search. And the `typeof` operator can be
+// used to log out the data type of a value or variable.
+
+// Still inside the Activity section’s change listener, you can use an `if/else` statement to check if
+// the clicked input element is checked or unchecked. If the input element is checked, add the cost
+// of the currently clicked activity to the total cost variable, else subtract the cost.
+
+// Finally, set the text of the total cost element (that you created above) equal to the string ‘Total:
+// $’ concatenated with the current value of the total cost variable (that you declared above).
