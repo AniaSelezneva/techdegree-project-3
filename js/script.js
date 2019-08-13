@@ -3,8 +3,8 @@ $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
 
-
-//$('#color').prepend($('<option value="selection">Please select a T-shirt theme</option>'));
+$('#color').prepend($('<option id="select-warning">Please select a T-shirt theme</option>'));
+$('#select-warning').hide();
 
 function hideColorsAndShowMessage () {
 //hide all the options in color select
@@ -34,7 +34,8 @@ function showColors() {
 showColors();
 
   function showJSPunsColors (){
- 
+  $('#select-warning').show();
+      
   $('#color [value=tomato]').hide();
   $('#color [value=steelblue]').hide();
   $('#color [value=dimgrey]').hide();
@@ -46,7 +47,8 @@ showColors();
 }
 
 function showILoveJSColors () {
-
+  $('#select-warning').show();
+    
   $('#color [value=cornflowerblue]').hide();
   $('#color [value=darkslategrey]').hide();
   $('#color [value=gold]').hide();
