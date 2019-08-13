@@ -5,8 +5,11 @@ $("form #other-title").css('display', 'none');
 
 $('#color').prepend($('<option id="select-warning">Please select a color</option>'));
 $('#select-warning').hide();
+<<<<<<< HEAD
 
 //$('div#colors-js-puns').append('<span>Some text</span>');
+=======
+>>>>>>> a67e47a7bc96a9adb355e159e4bb2f062e3b9dad
 
 function hideColorsAndShowMessage () {
 //hide all the options in color select
@@ -36,8 +39,16 @@ function showColors() {
 showColors();
 
   function showJSPunsColors (){
+<<<<<<< HEAD
   
   $('#color option').remove();   //hide all the color options
+=======
+  $('#select-warning').show();
+      
+  $('#color [value=tomato]').hide();
+  $('#color [value=steelblue]').hide();
+  $('#color [value=dimgrey]').hide();
+>>>>>>> a67e47a7bc96a9adb355e159e4bb2f062e3b9dad
 
   $('#color').append('<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>');  //append needed color options to the dom
   $('#color').append('<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> ');
@@ -46,8 +57,16 @@ showColors();
 }
 
 function showILoveJSColors () {
+<<<<<<< HEAD
 
   $('#color option').remove();   //hide all the color options
+=======
+  $('#select-warning').show();
+    
+  $('#color [value=cornflowerblue]').hide();
+  $('#color [value=darkslategrey]').hide();
+  $('#color [value=gold]').hide();
+>>>>>>> a67e47a7bc96a9adb355e159e4bb2f062e3b9dad
 
   $('#color').append('<option value="tomato">Tomato (I &#9829; JS shirt only)</option>');
   $('#color').append('<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> ');
