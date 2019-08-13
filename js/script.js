@@ -3,8 +3,10 @@ $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
 
+$('#color').prepend($('<option id="select-warning">Please select a color</option>'));
+$('#select-warning').hide();
 
-//$('#color').prepend($('<option value="selection">Please select a T-shirt theme</option>'));
+//$('div#colors-js-puns').append('<span>Some text</span>');
 
 function hideColorsAndShowMessage () {
 //hide all the options in color select
@@ -19,7 +21,7 @@ $("#color").each (function(element) {
 function showColors() {
   hideColorsAndShowMessage();
   $("#design").change(function() {   //here is a change in 'design' field
-  $('#remove-me-later').remove();    //remove the message j'select a theme'
+  $('#remove-me-later').remove();    //remove the message 'select a theme'
 
       if ($('#design').val() !== "Select Theme") {   //if chosen design value is a real design an not 'select theme' message
       $("#color").each (function(element) {    
@@ -34,26 +36,22 @@ function showColors() {
 showColors();
 
   function showJSPunsColors (){
- 
-  $('#color [value=tomato]').hide();
-  $('#color [value=steelblue]').hide();
-  $('#color [value=dimgrey]').hide();
+  
+  $('#color option').remove();   //hide all the color options
 
-  $('#color [value=cornflowerblue]').show();
-  $('#color [value=darkslategrey]').show();
-  $('#color [value=gold]').show();
+  $('#color').append('<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>');  //append needed color options to the dom
+  $('#color').append('<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> ');
+  $('#color').append('<option value="gold">Gold (JS Puns shirt only)</option> ');
 
 }
 
 function showILoveJSColors () {
 
-  $('#color [value=cornflowerblue]').hide();
-  $('#color [value=darkslategrey]').hide();
-  $('#color [value=gold]').hide();
+  $('#color option').remove();   //hide all the color options
 
-  $('#color [value=tomato]').show();
-  $('#color [value=steelblue]').show();
-  $('#color [value=dimgrey]').show();
+  $('#color').append('<option value="tomato">Tomato (I &#9829; JS shirt only)</option>');
+  $('#color').append('<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> ');
+  $('#color').append('<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> ');
 }
 
 $('#design').on ('change', () => {
