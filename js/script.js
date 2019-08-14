@@ -145,9 +145,82 @@ $("#payment").change(function() {   //here is a change in 'design' field
  
 });
 
+//regex.test(string);
+const $name = $('#name').val();
+
+var errorMessage= document.createElement("span");
+errorMessage.textContent = "Please type any name.";
+const parent = document.querySelector('fieldset');
+const sibling = document.querySelector('[for="mail"]');
+parent.insertBefore(errorMessage, sibling); 
+errorMessage.style.display = 'none';
+
+function isValidName () {
+  const nameInputField = document.getElementById('name');
+  nameInputField.addEventListener("input", () => {
+    let text = nameInputField.value;
+    const isValid = /^(.|\s)*\S(.|\s)*$/.test(text);
 
 
+      if (!isValid) {
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+      }
+    
+});
+}
 
+function isValidEmail () {
+  const emailInputField = document.getElementById('mail');
+  emailInputField.addEventListener("input", () => {
+    let text = emailInputField.value;
+    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
+  })
+}
+
+function isValidActivity () {
+
+  $('.activities').change(function (event) {
+  const checkboxes=document.querySelectorAll('.activities input');
+  let checked;
+  for(let i=0; i < checkboxes.length; i++)
+  {
+      if(checkboxes[i].checked)
+      {
+          checked = true;
+      }
+  }
+   if(checked) { console.log ('thank you');}
+   else {console.log('please chek smth');}
+})
+}
+
+function isValidCreditCardNumber () {
+  const creditCardInputField = document.getElementById('cc-num');
+  creditCardInputField.addEventListener("input", () => {
+    let text = creditCardInputField.value;
+    return /^(\d){13,16}$/.test(text);
+  })
+}
+
+function isValidZip () {
+  const zipInputField = document.getElementById('zip');
+  zipInputField.addEventListener("input", () => {
+    let text = zipInputField.value;
+    return /^(\d){5}$/.test(text);
+  }) 
+}
+
+function isValidCVV () {
+  const cvvInputField = document.getElementById('cvv');
+  cvvInputField.addEventListener("input", () => {
+    let text = cvvInputField.value;
+    return /^(\d){3}$/.test(text);
+  }) 
+}
+
+isValidName();
 
 
 
