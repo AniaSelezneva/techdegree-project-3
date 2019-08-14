@@ -104,6 +104,8 @@ $('#design').on ('change', () => {
 const totalCostElement = '<h2></h2>';
 let totalCost = 0;
 $('.activities').append(totalCostElement);   //append new element to the dom
+let selectedDayAndTime = ' ';  //here we store date and time of checked element
+
 
 // Add a change event listener to the activity section. Inside the listener, it will be helpful to have
 // a variable to reference the DOM `input` element that was just clicked.
@@ -117,22 +119,41 @@ $('.activities').change(function (event) {      //event handler for change event
 
   if(isChecked) {
      totalCost += cost;
+     selectedDayAndTime = $(event.target).attr("data-day-and-time");   //set date and time to the variable above
+     //console.log(selectedDayAndTime);
   } else {
     totalCost -= cost;
   }
   $('h2').text (`Total: $ ${totalCost}`); //add text with total cost to h2 created above
+
+  
 })
 
+// First, does the activity occur at the same day and time as the activity that was just
+// clicked? We can check this by seeing if the activity in the current loop iteration has a
+// `data-day-and-time` attribute that is equal to the `data-day-and-time` attribute of the
+// element that was just clicked.
+// ● Second, is the activity is different than the activity that was just clicked? We can check
+// this by seeing if the activity that was just clicked is not equal to the activity in the
+// current loop iteration.
 
-// Get the `data-cost` attribute value of the clicked element stored in the variable above.
-// Since you’ll be performing some simple arithmetic with the activity cost, you’ll need to
-// make sure the value is a number. There are helpful methods for turning strings into
-// numbers, which can be found with a Google search. And the `typeof` operator can be
-// used to log out the data type of a value or variable.
+const array = document.querySelectorAll('.activities input');
 
-// Still inside the Activity section’s change listener, you can use an `if/else` statement to check if
-// the clicked input element is checked or unchecked. If the input element is checked, add the cost
-// of the currently clicked activity to the total cost variable, else subtract the cost.
 
-// Finally, set the text of the total cost element (that you created above) equal to the string ‘Total:
-// $’ concatenated with the current value of the total cost variable (that you declared above).
+// $.each( $('.activities input'), function( index, value ){
+//     const currentDayAndTime = $(this).attr("data-day-and-time");
+//     if (currentDayAndTime.toUpperCase() === selectedDayAndTime.toUpperCase()) {
+//       console.log('match');
+//     }
+//     // console.log(typeof currentDayAndTime);
+//     // console.log(typeof selectedDayAndTime);
+//   })
+//   //console.log(currentElement);
+
+  for(let i = 1; i < array.length; i++) {
+    const currentDayAndTime = array[i].getAttribute("data-day-and-time");
+    currentDayAndTime.toString();
+    currentDayAndTime.toLowerCase();
+    console.log(currentDayAndTime);
+    //console.log(typeof selectedDayAndTime);
+  }
