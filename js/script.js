@@ -3,10 +3,17 @@ $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
 
+$("#title").change(function() {  //change in the title field
+    if ($('#title').val() == "other") {   
+     $("form #other-title").css('display', 'block');
+    } else {
+      $("form #other-title").css('display', 'none');
+    }
+  }
+)
+
 $('#color').prepend($('<option id="select-warning">Please select a color</option>'));
 $('#select-warning').hide();
-
-//$('div#colors-js-puns').append('<span>Some text</span>');
 
 function hideColorsAndShowMessage () {
 //hide all the options in color select
@@ -105,7 +112,6 @@ $('.activities').change(function (event) {      //event handler for change event
 //      If the clicked activity was unchecked, then set the matching activity element's `disabled`
 //property to `false`.
           inputs[i].disabled = false;
-          $clicked.prop('disabled',false);    //hide clicked item
       }
       
      }
@@ -145,37 +151,47 @@ $("#payment").change(function() {   //here is a change in 'design' field
  
 });
 
-//regex.test(string);
-const $name = $('#name').val();
 
-var errorMessage= document.createElement("span");
-errorMessage.textContent = "Please type any name.";
-const parent = document.querySelector('fieldset');
-const sibling = document.querySelector('[for="mail"]');
-parent.insertBefore(errorMessage, sibling); 
-errorMessage.style.display = 'none';
+let errorMessage= document.createElement("span");  //create a span element where we will ad error message
+
+function addErrorSpan (node, message, isValid) {      //create a function that adds message to this span element, hides and shows if needed 
+  errorMessage.textContent = message;  
+  const parent = node.parentElement;
+  const sibling = node.nextSibling;
+  parent.insertBefore(errorMessage, sibling); 
+  errorMessage.style.display = 'none';
+         if (!isValid) {
+        errorMessage.style.display = 'block';
+
+        node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
+        node.style.margin = "10px";
+
+      } else {
+        errorMessage.style.display = 'none';
+        
+        node.style["boxShadow"] = "";
+        node.style.margin = "";
+      }    
+}
 
 function isValidName () {
   const nameInputField = document.getElementById('name');
+  const errorMessage = 'Please type any name.';
   nameInputField.addEventListener("input", () => {
-    let text = nameInputField.value;
-    const isValid = /^(.|\s)*\S(.|\s)*$/.test(text);
-
-
-      if (!isValid) {
-        errorMessage.style.display = 'block';
-      } else {
-        errorMessage.style.display = 'none';
-      }
-    
-});
+    const text = nameInputField.value;
+    const isValid = /^(?!\s*$).+/.test(text);           //not an empty string
+    addErrorSpan (nameInputField, errorMessage, isValid);
+  });
 }
 
 function isValidEmail () {
   const emailInputField = document.getElementById('mail');
+  const errorMessage = 'Please type a valid email.';
   emailInputField.addEventListener("input", () => {
-    let text = emailInputField.value;
-    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
+    const text = emailInputField.value;
+    const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
+     addErrorSpan (emailInputField, errorMessage, isValid);
+     
   })
 }
 
@@ -183,45 +199,79 @@ function isValidActivity () {
 
   $('.activities').change(function (event) {
   const checkboxes=document.querySelectorAll('.activities input');
-  let checked;
+  let isValid;
+  let checkbox;
   for(let i=0; i < checkboxes.length; i++)
   {
-      if(checkboxes[i].checked)
+      checkbox = checkboxes[i];
+      if(checkbox.checked)
       {
-          checked = true;
+          isValid = true;
       }
   }
-   if(checked) { console.log ('thank you');}
-   else {console.log('please chek smth');}
+
+  errorMessage.textContent = 'Please choose some activities.';  
+  const parent = document.querySelector('.activities');
+  const sibling = document.querySelectorAll('legent')[1];
+  parent.insertBefore( errorMessage, sibling); 
+  errorMessage.style.display = 'none';
+         if (!isValid) {
+        errorMessage.style.display = 'block';
+        
+        $('.activities input').each ( function( index, value ) {
+          value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
+          value.style.margin = "10px";
+          });
+
+      } else {
+        errorMessage.style.display = 'none';
+        
+        $('.activities input').each ( function( index, value ) {
+          value.style["boxShadow"] = ""; //change css style to red
+          value.style.margin = "";
+          });
+      }  
+  
 })
 }
 
 function isValidCreditCardNumber () {
   const creditCardInputField = document.getElementById('cc-num');
+  const errorMessage = 'Please check your credit card number, it should contain between 13 and 16 digits.';
+  let isValid;
   creditCardInputField.addEventListener("input", () => {
     let text = creditCardInputField.value;
-    return /^(\d){13,16}$/.test(text);
+    isValid = /^(\d){13,16}$/.test(text);
+    addErrorSpan (creditCardInputField, errorMessage, isValid); 
   })
+ 
 }
 
 function isValidZip () {
   const zipInputField = document.getElementById('zip');
+  const errorMessage = 'Please check your zip, it should contain 5 digits.';
+  let isValid;
   zipInputField.addEventListener("input", () => {
     let text = zipInputField.value;
-    return /^(\d){5}$/.test(text);
+    isValid = /^(\d){5}$/.test(text);
+    addErrorSpan (zipInputField, errorMessage, isValid);
   }) 
 }
 
 function isValidCVV () {
   const cvvInputField = document.getElementById('cvv');
+  const errorMessage = 'Please check your CVV, it should be 3 digits long.';
+  let isValid;
   cvvInputField.addEventListener("input", () => {
     let text = cvvInputField.value;
-    return /^(\d){3}$/.test(text);
+    isValid = /^(\d){3}$/.test(text);
+    addErrorSpan (cvvInputField, errorMessage, isValid);
   }) 
 }
 
 isValidName();
-
-
-
-
+isValidEmail();
+isValidActivity();
+isValidCreditCardNumber ();
+isValidZip ();
+isValidCVV ();
