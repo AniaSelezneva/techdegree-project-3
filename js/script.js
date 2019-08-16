@@ -1,18 +1,8 @@
-//focus on name field
-$("#name").focus();
-//hide 'other' input field
-$("form #other-title").css('display', 'none');
+$("#name").focus();     //focus on name field
+$("form #other-title").css('display', 'none');   //hide 'other' input field
 
-const button = document.querySelector("button")  
-button.disabled = true;                           //disabling submit button
-
-  button.style.border = '1px solid #0066cc';
-  button.style.backgroundColor = '#0099cc';
-  button.style.color = '#ffffff';
-  button.style.padding = '5px 10px';
-
-
-$("#title").change(function() {  //change in the title field
+//when there is some change in the title field we show or hide 'other' input field depending on the selected option
+$("#title").change(function() {  
     if ($('#title').val() == "other") {   
      $("form #other-title").css('display', 'block');
     } else {
@@ -21,55 +11,56 @@ $("#title").change(function() {  //change in the title field
   }
 )
 
-$('#color').prepend($('<option id="select-warning">Please select a color</option>'));
+$('#color').prepend($('<option id="select-warning">Please select a color</option>'));  //add option 'select color' to colors
 $('#select-warning').hide();
+$('#colors-js-puns').hide();  //hide the "Color" label and select menu 
 
+//function that hides all the color options and shows a message 'select a theme'
 function hideColorsAndShowMessage () {
-//hide all the options in color select
-$("#color").each (function(element) {
+$("#color").each (function(element) { 
     $(this).hide();
   });
-//add option that says to choose the design
-  $('#colors-js-puns').append('<select id="remove-me-later"><option value="no_design_message">Please select a T-shirt theme</option><select>');
-}
+  $('#colors-js-puns').
+    append('<select id="remove-me-later"><option value="no_design_message">Please select a T-shirt theme</option><select>');
+} 
   
 //when something is chosen from the "Design" menu, "Color" appears normally again
 function showColors() {
   hideColorsAndShowMessage();
-  $("#design").change(function() {   //here is a change in 'design' field
+  $("#design").change(function() { 
+  $('#colors-js-puns').show();     //show the "Color" label and select menu   
   $('#remove-me-later').remove();    //remove the message 'select a theme'
 
       if ($('#design').val() !== "Select Theme") {   //if chosen design value is a real design an not 'select theme' message
       $("#color").each (function(element) {    
-        $(this).show();                              //options are shown
-           
+        $(this).show();                              //options are shown          
       });
     } else {
         hideColorsAndShowMessage();
     }
   });
 }
+
 showColors();
 
-  function showJSPunsColors (){
-  
-  $('#color option').remove();   //remove all the color options
-
-  $('#color').append('<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>');  //append needed color options to the dom
-  $('#color').append('<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> ');
-  $('#color').append('<option value="gold">Gold (JS Puns shirt only)</option> ');
+//show colors when 'js puns' is chosen
+function showJSPunsColors (){
+$('#color option').remove();   //remove all the color options
+$('#color').append('<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>'); 
+$('#color').append('<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> ');
+$('#color').append('<option value="gold">Gold (JS Puns shirt only)</option> ');
 
 }
 
+//show colors when 'i love js' is chosen
 function showILoveJSColors () {
-
   $('#color option').remove();   //remove all the color options
-
   $('#color').append('<option value="tomato">Tomato (I &#9829; JS shirt only)</option>');    //append needed color options to the dom
   $('#color').append('<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> ');
   $('#color').append('<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> ');
 }
 
+//when there is some change in design field show colors depending on the chosen option
 $('#design').on ('change', () => {
   if ($( "#design option:selected" ).val() == 'js puns') { 
     showJSPunsColors();
@@ -78,17 +69,16 @@ $('#design').on ('change', () => {
   }
 })
 
-
-const totalCostElement = '<h2></h2>';
+const totalCostElement = '<h2></h2>';      //a new element to store total cost of activities  
 let totalCost = 0;
-$('.activities').append(totalCostElement);   //append new element to the dom
+$('.activities').append(totalCostElement);   //append new element 
 
-
-$('.activities').change(function (event) {      //event handler for change events in activities section
-  let $clicked = $(event.target);       //checkbox that triggered the event
-  let cost = $clicked.attr("data-cost");              //get value of attribute data-cost, which is cost
-  cost = cost.match(/\d+/g);         //removing $ sign, leaving just a number
-  cost = parseInt(cost, 10);         //this ia all dealing with the cost
+//when there is a change in activities section, get a 'data-cost' attribute of chosen option and make it a number
+$('.activities').change(function (event) {     
+  let $clicked = $(event.target);       
+  let cost = $clicked.attr("data-cost");              
+  cost = cost.match(/\d+/g);        
+  cost = parseInt(cost, 10);         
 
 
   let $selectedDayAndTime = $clicked.attr("data-day-and-time");    //here we store date and time of checked element   ???????????????????????????????????????????
@@ -127,88 +117,98 @@ $('.activities').change(function (event) {      //event handler for change event
    }
   })
 
-$('p').hide();     //hide addictional payment information 
+$('p').hide();  //initially hide payment info for paypal and bitcoin
 
-
-
-$("#payment").change(function() {   //here is a change in 'design' field
-
+//when there is a change in 'design' field...
+$("#payment").change(function() { 
   $( '#payment [value="select method"]' ).hide();   //hide the 'select payment method' option
-  
-  const chosenPayment = this.value;      //get value of chosen payment method, it is chosenPayment
-  const $creditCard = $('#credit-card');   //get a hold of credit card div
+  const chosenPayment = this.value;      //get value of chosen payment method
+  const $creditCard = $('#credit-card');  
   const $paypal = $('p').eq(0);
   const $bitcoin = $('p').eq(1);
-  
-  //console.log($payPal);
   if ( chosenPayment === 'paypal' ) {
     $creditCard.hide();
     $bitcoin.hide();
     $paypal.show();
-
   } else if ( chosenPayment === 'bitcoin') {
-    $creditCard.hide();
-    $paypal.hide();
-    $bitcoin.show();
-
+      $creditCard.hide();
+      $paypal.hide();
+      $bitcoin.show();
   }else {
     $paypal.hide();
     $bitcoin.hide();
     $creditCard.show();
-
   }
- 
 });
 
-
-let errorMessage= document.createElement("span");  //create a span element where we will ad error message
+//span element where we will store error message when some information is not valid
+let errorMessage= document.createElement("span");  
 errorMessage.style.color = 'red';
+errorMessage.style.position='absolute';
+errorMessage.style.right = '400px';
+errorMessage.style.background = '	black';
 
-function addErrorSpan (node, message, isValid) {      //create a function that adds message to this span element, hides and shows if needed 
+//add message to this span element, hide and show when needed needed 
+function addErrorSpan (node, message, isValid, messageForEmpty) {     
   errorMessage.textContent = message;  
   const parent = node.parentElement;
   const sibling = node.nextSibling;
   parent.insertBefore(errorMessage, sibling); 
   errorMessage.style.display = 'none';
-         if (!isValid) {
-        errorMessage.style.display = 'block';
+  if (!isValid) {
+    errorMessage.style.display = 'block';
+    node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
 
-        node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
-        node.style.margin = "10px";
+      // const emptyRegex = /^$/;
+      // let empty = emptyRegex.test(node.textContent) 
 
-        return false;
+      // if (empty === true) {
+      //   errorMessage.textContent = messageForEmpty;   //message for empty field
+      //   errorMessage.style.display = 'block';
+      //   node.style["boxShadow"] = "0 0 3px #CC0000";
+      // } else if (empty === false){
+      //   errorMessage.style.display = 'none';  
+      //   node.style["boxShadow"] = "";
+      // }
 
-      } else {
-        errorMessage.style.display = 'none';
-        
-        node.style["boxShadow"] = "";
-        node.style.margin = "";
-
-        return true;
-      }    
+  } else {
+    errorMessage.style.display = 'none';  
+    node.style["boxShadow"] = "";
+  } 
 }
 
+//checking if a name field is not empty
+let validateName = false; 
 function isValidName () {
   const nameInputField = document.getElementById('name');
   const errorMessage = 'Please type any name.';
+  let isValid;
+  const messageForEmpty = "A name field can't be empty.";
   nameInputField.addEventListener("input", () => {
     const text = nameInputField.value;
-    const isValid = /^(?!\s*$).+/.test(text);           //not an empty string
-    addErrorSpan (nameInputField, errorMessage, isValid);
+    isValid = /^(?!\s*$).+/.test(text);           //not an empty string
+    addErrorSpan (nameInputField, errorMessage, isValid, messageForEmpty);
+    validateName = isValid;
   });
 }
 
+//checking if an email is valid
+let validateMail = false;
 function isValidEmail () {
   const emailInputField = document.getElementById('mail');
   const errorMessage = 'Please type a valid email.';
+  let isValid;
+  const messageForEmpty = "Email field can't be empty";
   emailInputField.addEventListener("input", () => {
     const text = emailInputField.value;
-    const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
-     addErrorSpan (emailInputField, errorMessage, isValid);
-     
+     isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
+     addErrorSpan (emailInputField, errorMessage, isValid, messageForEmpty);
+     validateMail = isValid;
   })
 }
 
+//checking if some activities are chosen
+let validateActivity = false;
 function isValidActivity () {
 
   $('.activities').change(function (event) {
@@ -234,99 +234,102 @@ function isValidActivity () {
         
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
-          value.style.margin = "10px";
           });
-        return false;
+        validateActivity = isValid;
 
       } else {
         errorMessage.style.display = 'none';
         
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = ""; //change css style to red
-          value.style.margin = "";
           });
-        return true;
+          validateActivity = isValid;
       }  
   
 })
 }
 
+let validateCreditCardNum = false;
 function isValidCreditCardNumber () {
   const creditCardInputField = document.getElementById('cc-num');
   const errorMessage = 'Please check your credit card number, it should contain between 13 and 16 digits.';
   let isValid;
+  const messageForEmpty = "A number field field can't be empty.";
   creditCardInputField.addEventListener("input", () => {
     let text = creditCardInputField.value;
     isValid = /^(\d){13,16}$/.test(text);
-    addErrorSpan (creditCardInputField, errorMessage, isValid); 
+    addErrorSpan (creditCardInputField, errorMessage, isValid, messageForEmpty); 
+    validateCreditCardNum = isValid;
   })
  
 }
 
+//checking if zip is valid
+let validateZip = false;
 function isValidZip () {
   const zipInputField = document.getElementById('zip');
   const errorMessage = 'Please check your zip, it should contain 5 digits.';
   let isValid;
+  const messageForEmpty = "A zip field can't be empty.";
   zipInputField.addEventListener("input", () => {
     let text = zipInputField.value;
     isValid = /^(\d){5}$/.test(text);
-    addErrorSpan (zipInputField, errorMessage, isValid);
+    addErrorSpan (zipInputField, errorMessage, isValid, messageForEmpty);
+    validateZip = isValid;
   }) 
 }
 
+//cheching if a design is chosen
+let validateCVV = false;
 function isValidCVV () {
   const cvvInputField = document.getElementById('cvv');
   const errorMessage = 'Please check your CVV, it should be 3 digits long.';
   let isValid;
+  const messageForEmpty = "A CVV field can't be empty.";
   cvvInputField.addEventListener("input", () => {
     let text = cvvInputField.value;
     isValid = /^(\d){3}$/.test(text);
-    addErrorSpan (cvvInputField, errorMessage, isValid);
+    addErrorSpan (cvvInputField, errorMessage, isValid, messageForEmpty);
+    validateCVV = isValid;
   }) 
 }
 
-isValidName ();
-isValidEmail ();
-isValidActivity ();
-isValidCreditCardNumber ();
-isValidZip ();
-isValidCVV ();
+let validateTshirt = false;
+function isValidTshirt () {
+  const input = document.querySelector('#design');
+  let isValid = true;
+  const message = 'Please pick a T-shirt design.';
 
-// function isEverythingValid () {
+  $('#design').on('change', function() { 
+      if ($('#design').val() === "Select Theme") {   
+        isValid = false;
+        validateTshirt = isValid;
+        addErrorSpan (input, message, isValid);
+      } else {
+        isValid = true;
+        validateTshirt = isValid;
+        addErrorSpan (input, message, isValid);
+      }
+    }
+  )
+}
 
-//   if (isValidName() && isValidEmail() && isValidActivity() && isValidCreditCardNumber () && isValidZip () && isValidCVV ()) {
-//      console.log('true');
-//    }
+isValidName (); isValidEmail (); isValidActivity (); isValidCreditCardNumber (); isValidZip (); isValidCVV (); isValidTshirt ();
 
-//   else {
-//      console.log('false'); }
-// }
-// isEverythingValid();
+//function to return true if everything is valid or false if something is not
+let result = false;
+function submit () {
+    event.preventDefault();
+    if (validateName === true && validateMail === true && validateActivity === true && 
+       validateCreditCardNum === true  && validateZip === true && validateCVV === true && validateTshirt === true) {
+      result = true;
+    } else {
+      result = false;
+    }
+  }
 
-
-  // let name = isValidName ();
-  // let email = isValidEmail ();
-  // let activity = isValidActivity ();
-  // let cardNumber = isValidCreditCardNumber ();
-  // let zip = isValidZip ();
-  // let cvv = isValidCVV ();
-
-  
-
-// document.querySelector('button').addEventListener('submit', (event) => {
-//   event.preventDefault();
-//   const name = isValidName ();
-//   const email = isValidEmail ();
-//   const activity = isValidActivity ();
-//   const cardNumber = isValidCreditCardNumber ();
-//   const zip = isValidZip ();
-//   const cvv = isValidCVV ();
-
-//   let result;
-//   if(name && email && activity && cardNumber && zip && cvv) {
-//     result = true;
-//   } else {
-//     result = false;
-//   }
-//   console.log(result);
-// })
+//event listener for button click
+document.querySelector('button').addEventListener('click', (event) => { 
+  submit();
+  console.log(result);
+})
