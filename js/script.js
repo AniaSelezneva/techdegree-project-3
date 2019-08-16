@@ -3,6 +3,15 @@ $("#name").focus();
 //hide 'other' input field
 $("form #other-title").css('display', 'none');
 
+const button = document.querySelector("button")  
+button.disabled = true;                           //disabling submit button
+
+  button.style.border = '1px solid #0066cc';
+  button.style.backgroundColor = '#0099cc';
+  button.style.color = '#ffffff';
+  button.style.padding = '5px 10px';
+
+
 $("#title").change(function() {  //change in the title field
     if ($('#title').val() == "other") {   
      $("form #other-title").css('display', 'block');
@@ -153,6 +162,7 @@ $("#payment").change(function() {   //here is a change in 'design' field
 
 
 let errorMessage= document.createElement("span");  //create a span element where we will ad error message
+errorMessage.style.color = 'red';
 
 function addErrorSpan (node, message, isValid) {      //create a function that adds message to this span element, hides and shows if needed 
   errorMessage.textContent = message;  
@@ -166,11 +176,15 @@ function addErrorSpan (node, message, isValid) {      //create a function that a
         node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
         node.style.margin = "10px";
 
+        return false;
+
       } else {
         errorMessage.style.display = 'none';
         
         node.style["boxShadow"] = "";
         node.style.margin = "";
+
+        return true;
       }    
 }
 
@@ -222,6 +236,7 @@ function isValidActivity () {
           value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
           value.style.margin = "10px";
           });
+        return false;
 
       } else {
         errorMessage.style.display = 'none';
@@ -230,6 +245,7 @@ function isValidActivity () {
           value.style["boxShadow"] = ""; //change css style to red
           value.style.margin = "";
           });
+        return true;
       }  
   
 })
@@ -269,9 +285,48 @@ function isValidCVV () {
   }) 
 }
 
-isValidName();
-isValidEmail();
-isValidActivity();
+isValidName ();
+isValidEmail ();
+isValidActivity ();
 isValidCreditCardNumber ();
 isValidZip ();
 isValidCVV ();
+
+// function isEverythingValid () {
+
+//   if (isValidName() && isValidEmail() && isValidActivity() && isValidCreditCardNumber () && isValidZip () && isValidCVV ()) {
+//      console.log('true');
+//    }
+
+//   else {
+//      console.log('false'); }
+// }
+// isEverythingValid();
+
+
+  // let name = isValidName ();
+  // let email = isValidEmail ();
+  // let activity = isValidActivity ();
+  // let cardNumber = isValidCreditCardNumber ();
+  // let zip = isValidZip ();
+  // let cvv = isValidCVV ();
+
+  
+
+// document.querySelector('button').addEventListener('submit', (event) => {
+//   event.preventDefault();
+//   const name = isValidName ();
+//   const email = isValidEmail ();
+//   const activity = isValidActivity ();
+//   const cardNumber = isValidCreditCardNumber ();
+//   const zip = isValidZip ();
+//   const cvv = isValidCVV ();
+
+//   let result;
+//   if(name && email && activity && cardNumber && zip && cvv) {
+//     result = true;
+//   } else {
+//     result = false;
+//   }
+//   console.log(result);
+// })
