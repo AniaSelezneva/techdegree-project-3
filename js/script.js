@@ -1,3 +1,9 @@
+/******************************************
+Hi. I am going for "Exceeds Expectations" grade, but if it doesn't exceed I will be okay with "Meets Expectations" grade.
+Inputs have different error messages depending on the error and they have "real time" validation messages.
+Thank you.
+******************************************/
+
 $("#name").focus();     //focus on name field
 $("form #other-title").css('display', 'none');   //hide 'other' input field
 
@@ -33,10 +39,12 @@ function showColors() {
 
       if ($('#design').val() !== "Select Theme") {   //if chosen design value is a real design an not 'select theme' message
       $("#color").each (function(element) {    
-        $(this).show();                              //options are shown          
+        $(this).slideDown();                              //options are shown          
       });
     } else {
         hideColorsAndShowMessage();
+        $('#select-warning').hide();
+        $('#colors-js-puns').hide();  //hide the "Color" label and select menu 
     }
   });
 }
@@ -119,6 +127,7 @@ $('.activities').change(function (event) {
 
 $('p').hide();  //initially hide payment info for paypal and bitcoin
 
+let creditCardIsChosen = false;     //will check if credit card is chosen
 //when there is a change in 'design' field...
 $("#payment").change(function() { 
   $( '#payment [value="select method"]' ).hide();   //hide the 'select payment method' option
@@ -130,27 +139,30 @@ $("#payment").change(function() {
     $creditCard.hide();
     $bitcoin.hide();
     $paypal.show();
+    creditCardIsChosen = false;
   } else if ( chosenPayment === 'bitcoin') {
       $creditCard.hide();
       $paypal.hide();
       $bitcoin.show();
+      creditCardIsChosen = false;
   }else {
     $paypal.hide();
     $bitcoin.hide();
     $creditCard.show();
+    creditCardIsChosen = true;
   }
 });
 
 //span element where we will store error message when some information is not valid
 let errorMessage= document.createElement("span");  
-errorMessage.style.color = 'red';
-errorMessage.style.position='absolute';
-errorMessage.style.right = '450px';
-errorMessage.style.background = '	black';
+errorMessage.style.cpadding = '20px';
+errorMessage.style.color = 'white';
+errorMessage.style.marginBottom = '15px';
+errorMessage.style.backgroundColor = '#c42555';
 
 //add message to this span element, hide and show when needed needed 
 function addErrorSpan (node, message, isValid) {     
-  errorMessage.textContent = message;  
+  errorMessage.innerHTML = message;  
   const parent = node.parentElement;
   const sibling = node.nextSibling;
   parent.insertBefore(errorMessage, sibling); 
@@ -194,7 +206,7 @@ function isValidEmail () {
   emailInputField.addEventListener("input", () => {
      let userInput = emailInputField.value;
      let isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userInput);
-     const messageForEmpty = "Email field can't be empty";     //message for empty input field
+     const messageForEmpty = "Email field can't be empty.";     //message for empty input field
      validateMail = isValid;
      const emptyString = /^ *$/;              //empty 
      let isEmpty = emptyString.test(userInput);  //check if the input is empty
@@ -241,7 +253,7 @@ function isValidActivity () {
         errorMessage.style.display = 'none';
         
         $('.activities input').each ( function( index, value ) {
-          value.style["boxShadow"] = ""; //change css style to red
+          value.style["boxShadow"] = "";
           });
           validateActivity = isValid;
       }  
@@ -252,8 +264,7 @@ function isValidActivity () {
 let validateCreditCardNum = false;
 function isValidCreditCardNumber () {
   const creditCardInputField = document.getElementById('cc-num');
-  const errorMessage = 'Please check your credit card number, it should contain between 13 and 16 digits.';
-  let isValid;
+  const errorMessage = `Please check your credit card number, <br> it should contain between 13 and 16 digits.`;
   const messageForEmpty = "A number field field can't be empty.";     //message for empty input field
   creditCardInputField.addEventListener("input", () => {
     let userInput = creditCardInputField.value;
@@ -334,14 +345,27 @@ function isValidTshirt () {
   )
 }
 
-isValidName (); isValidEmail (); isValidActivity (); isValidCreditCardNumber (); isValidZip (); isValidCVV (); isValidTshirt ();
+isValidName (); isValidEmail (); isValidActivity (); isValidTshirt (); isValidCreditCardNumber (); isValidZip (); isValidCVV ();
+
+let cardInfo = false;
+function isCreditCardNeeded (){
+  if (creditCardIsChosen === true) {    //if credit card is chosen
+    if ( validateCreditCardNum === true && validateZip === true && validateCVV === true) {  //check number, zip and cvv
+      cardInfo = true;
+    } else {
+      cardInfo = false;
+    } 
+  } else if (creditCardIsChosen === false){
+    cardInfo = true;             //it should be true since credit card is not chosen
+  }
+}
 
 //function to return true if everything is valid or false if something is not
 let result = false;
 function submit () {
     event.preventDefault();
-    if (validateName === true && validateMail === true && validateActivity === true && 
-       validateCreditCardNum === true  && validateZip === true && validateCVV === true && validateTshirt === true) {
+    isCreditCardNeeded();
+    if (validateName === true && validateMail === true && validateActivity === true && cardInfo === true) {
       result = true;
     } else {
       result = false;
