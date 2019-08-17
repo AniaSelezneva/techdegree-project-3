@@ -145,34 +145,22 @@ $("#payment").change(function() {
 let errorMessage= document.createElement("span");  
 errorMessage.style.color = 'red';
 errorMessage.style.position='absolute';
-errorMessage.style.right = '400px';
+errorMessage.style.right = '450px';
 errorMessage.style.background = '	black';
 
 //add message to this span element, hide and show when needed needed 
-function addErrorSpan (node, message, isValid, messageForEmpty) {     
+function addErrorSpan (node, message, isValid) {     
   errorMessage.textContent = message;  
   const parent = node.parentElement;
   const sibling = node.nextSibling;
   parent.insertBefore(errorMessage, sibling); 
+  //parent.insertBefore(emptyMessage, sibling);
   errorMessage.style.display = 'none';
-  if (!isValid) {
+  if (!isValid) {   //if not valid
     errorMessage.style.display = 'block';
     node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
-
-      // const emptyRegex = /^$/;
-      // let empty = emptyRegex.test(node.textContent) 
-
-      // if (empty === true) {
-      //   errorMessage.textContent = messageForEmpty;   //message for empty field
-      //   errorMessage.style.display = 'block';
-      //   node.style["boxShadow"] = "0 0 3px #CC0000";
-      // } else if (empty === false){
-      //   errorMessage.style.display = 'none';  
-      //   node.style["boxShadow"] = "";
-      // }
-
-  } else {
-    errorMessage.style.display = 'none';  
+  } else if (isValid) {    //if valid
+    errorMessage.style.display = 'none'; 
     node.style["boxShadow"] = "";
   } 
 }
@@ -182,13 +170,19 @@ let validateName = false;
 function isValidName () {
   const nameInputField = document.getElementById('name');
   const errorMessage = 'Please type any name.';
-  let isValid;
-  const messageForEmpty = "A name field can't be empty.";
+  const messageForEmpty = "A name field can't be empty.";    //message for empty input field
   nameInputField.addEventListener("input", () => {
-    const text = nameInputField.value;
-    isValid = /^(?!\s*$).+/.test(text);           //not an empty string
-    addErrorSpan (nameInputField, errorMessage, isValid, messageForEmpty);
+    let userInput = nameInputField.value;
+    let isValid = /^(?!\s*$).+/.test(userInput);           //not an empty string
     validateName = isValid;
+    const emptyString = /^ *$/;          //empty 
+    let isEmpty = emptyString.test(userInput); 
+    if (isEmpty) {        //check if the input is empty
+      addErrorSpan (nameInputField, messageForEmpty, isValid);    //show the message for empty input
+    } else if(!isEmpty) {
+      addErrorSpan (nameInputField, errorMessage, isValid); 
+    }
+
   });
 }
 
@@ -197,13 +191,19 @@ let validateMail = false;
 function isValidEmail () {
   const emailInputField = document.getElementById('mail');
   const errorMessage = 'Please type a valid email.';
-  let isValid;
-  const messageForEmpty = "Email field can't be empty";
   emailInputField.addEventListener("input", () => {
-    const text = emailInputField.value;
-     isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(text);
-     addErrorSpan (emailInputField, errorMessage, isValid, messageForEmpty);
+     let userInput = emailInputField.value;
+     let isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userInput);
+     const messageForEmpty = "Email field can't be empty";     //message for empty input field
      validateMail = isValid;
+     const emptyString = /^ *$/;              //empty 
+     let isEmpty = emptyString.test(userInput);  //check if the input is empty
+     if (isEmpty) {
+      addErrorSpan (emailInputField, messageForEmpty, isValid);      //show the message for empty input
+     } else if(!isEmpty) {
+      addErrorSpan (emailInputField, errorMessage, isValid);
+     }
+ 
   })
 }
 
@@ -254,12 +254,18 @@ function isValidCreditCardNumber () {
   const creditCardInputField = document.getElementById('cc-num');
   const errorMessage = 'Please check your credit card number, it should contain between 13 and 16 digits.';
   let isValid;
-  const messageForEmpty = "A number field field can't be empty.";
+  const messageForEmpty = "A number field field can't be empty.";     //message for empty input field
   creditCardInputField.addEventListener("input", () => {
-    let text = creditCardInputField.value;
-    isValid = /^(\d){13,16}$/.test(text);
-    addErrorSpan (creditCardInputField, errorMessage, isValid, messageForEmpty); 
+    let userInput = creditCardInputField.value;
+    let isValid = /^(\d){13,16}$/.test(userInput);
     validateCreditCardNum = isValid;
+    const emptyString = /^ *$/;         //empty 
+     let isEmpty = emptyString.test(userInput);
+    if (isEmpty) {                           //check if the input is empty
+      addErrorSpan (creditCardInputField, messageForEmpty , isValid);   //show the message for empty input
+     } else if(!isEmpty) {
+      addErrorSpan (creditCardInputField, errorMessage, isValid); 
+     }
   })
  
 }
@@ -269,13 +275,20 @@ let validateZip = false;
 function isValidZip () {
   const zipInputField = document.getElementById('zip');
   const errorMessage = 'Please check your zip, it should contain 5 digits.';
-  let isValid;
-  const messageForEmpty = "A zip field can't be empty.";
+  const messageForEmpty = "A zip field can't be empty.";         //message for empty input field
   zipInputField.addEventListener("input", () => {
-    let text = zipInputField.value;
-    isValid = /^(\d){5}$/.test(text);
-    addErrorSpan (zipInputField, errorMessage, isValid, messageForEmpty);
+    let userInput = zipInputField.value;
+    let isValid = /^(\d){5}$/.test(userInput);
+    addErrorSpan (zipInputField, errorMessage, isValid);
     validateZip = isValid;
+     const emptyString = /^ *$/;       //empty 
+    let isEmpty = emptyString.test(userInput);
+   if (isEmpty) {         //check if the input is empty
+     addErrorSpan (zipInputField, messageForEmpty , isValid);   //show the message for empty input
+    } else if(!isEmpty) {
+     addErrorSpan (zipInputField, errorMessage, isValid); 
+    }
+
   }) 
 }
 
@@ -284,13 +297,20 @@ let validateCVV = false;
 function isValidCVV () {
   const cvvInputField = document.getElementById('cvv');
   const errorMessage = 'Please check your CVV, it should be 3 digits long.';
-  let isValid;
-  const messageForEmpty = "A CVV field can't be empty.";
+  const messageForEmpty = "A CVV field can't be empty.";    //message for empty input field
   cvvInputField.addEventListener("input", () => {
-    let text = cvvInputField.value;
-    isValid = /^(\d){3}$/.test(text);
-    addErrorSpan (cvvInputField, errorMessage, isValid, messageForEmpty);
+    let userInput = cvvInputField.value;
+    let isValid = /^(\d){3}$/.test(userInput);
+    addErrorSpan (cvvInputField, errorMessage, isValid);
     validateCVV = isValid;
+    const emptyString = /^ *$/;   //empty 
+    let isEmpty = emptyString.test(userInput);
+    if (isEmpty) {                 //check if the input is empty
+     addErrorSpan (cvvInputField, messageForEmpty , isValid);  //show the message for empty input
+    } else if(!isEmpty) {
+     addErrorSpan (cvvInputField, errorMessage, isValid); 
+    }
+
   }) 
 }
 
