@@ -154,9 +154,11 @@ function addErrorSpan (node, message, isValid) {
   parent.insertBefore(errorMessage, sibling); 
   errorMessage.style.display = 'none';
   if (!isValid) {   //if not valid
+    node.style.borderColor = 'red';
     errorMessage.style.display = 'block';
     node.style["boxShadow"] = "0 0 3px #CC0000";
   } else if (isValid) {    
+    node.style.borderColor = 'green';
     errorMessage.style.display = 'none'; 
     node.style["boxShadow"] = "";
   } 
