@@ -10,9 +10,9 @@ $("form #other-title").css('display', 'none');   //hide 'other' input field
 //when there is some change in the title field we show or hide 'other' input field depending on the selected option
 $("#title").change(function() {  
     if ($('#title').val() == "other") {   
-     $("form #other-title").css('display', 'block');
+     $("form #other-title").slideDown();
     } else {
-      $("form #other-title").css('display', 'none');
+      $("form #other-title").slideUp();
     }
   }
 )
@@ -57,7 +57,6 @@ $('#color option').remove();   //remove all the color options
 $('#color').append('<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>'); 
 $('#color').append('<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> ');
 $('#color').append('<option value="gold">Gold (JS Puns shirt only)</option> ');
-
 }
 
 //show colors when 'i love js' is chosen
@@ -87,10 +86,8 @@ $('.activities').change(function (event) {
   let cost = $clicked.attr("data-cost");              
   cost = cost.match(/\d+/g);        
   cost = parseInt(cost, 10);         
-
-
-  let $selectedDayAndTime = $clicked.attr("data-day-and-time");    //here we store date and time of checked element   ???????????????????????????????????????????
-  let isChecked = $(event.target).is(':checked');   //isChecked is a bool stores true if target is checked
+  let $selectedDayAndTime = $clicked.attr("data-day-and-time");    //date and time of checked element  
+  let isChecked = $(event.target).is(':checked');   //isChecked is true if target is checked
 
   if(isChecked) {
      totalCost += cost;
@@ -99,31 +96,20 @@ $('.activities').change(function (event) {
   }
   $('h2').text (`Total: $ ${totalCost}`); //add text with total cost to h2 created above
   
-  const inputs = document.querySelectorAll('.activities input');  //array of all activities input that exist in the list
-  //ocument.querySelectorAll(".activities input").checked = false;
-  
-  //loop through all activity checkboxes array
+  const inputs = document.querySelectorAll('.activities input');  //array of all activities that exist in the list
   for(let i = 0; i < inputs.length; i++) {
-    
        let currentDayAndTime = inputs[i].getAttribute("data-day-and-time");  //current day and time attribute
-
        if (currentDayAndTime === $selectedDayAndTime) { //if currently chosen dayAndTime matches any in the array
-          //
        if (isChecked) {
-          //      If the clicked activity was checked, then set the matching activity element's `disabled`
-  //property to `true`
-          inputs[i].disabled = true;   //hide looped checkbox in activity
-          //console.log(selectedDayAndTime);
+          //      If the clicked activity was checked, then set the matching activity element's `disabled` property to `true`
+          inputs[i].disabled = true;   //hide current checkbox in activity
         $clicked.prop('disabled',false);      //show clicked item
-      } else if (!isChecked){
-//      If the clicked activity was unchecked, then set the matching activity element's `disabled`
-//property to `false`.
+      } else if (!isChecked){ //If the clicked activity was unchecked, set the matching activity element's `disabled` property to `false`.
           inputs[i].disabled = false;
       }
-      
-     }
-   }
-  })
+    }
+  }
+})
 
 $('p').hide();  //initially hide payment info for paypal and bitcoin
 
@@ -141,10 +127,10 @@ $("#payment").change(function() {
     $paypal.show();
     creditCardIsChosen = false;
   } else if ( chosenPayment === 'bitcoin') {
-      $creditCard.hide();
-      $paypal.hide();
-      $bitcoin.show();
-      creditCardIsChosen = false;
+    $creditCard.hide();
+    $paypal.hide();
+    $bitcoin.show();
+    creditCardIsChosen = false;
   }else {
     $paypal.hide();
     $bitcoin.hide();
@@ -153,31 +139,40 @@ $("#payment").change(function() {
   }
 });
 
-//span element where we will store error message when some information is not valid
+//span element where error message about invalid info will be stored
 let errorMessage= document.createElement("span");  
 errorMessage.style.cpadding = '20px';
 errorMessage.style.color = 'white';
 errorMessage.style.marginBottom = '15px';
 errorMessage.style.backgroundColor = '#c42555';
 
-//add message to this span element, hide and show when needed needed 
+//add message to this span element, hide and show when needed 
 function addErrorSpan (node, message, isValid) {     
   errorMessage.innerHTML = message;  
   const parent = node.parentElement;
   const sibling = node.nextSibling;
   parent.insertBefore(errorMessage, sibling); 
-  //parent.insertBefore(emptyMessage, sibling);
   errorMessage.style.display = 'none';
   if (!isValid) {   //if not valid
     errorMessage.style.display = 'block';
-    node.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
-  } else if (isValid) {    //if valid
+    node.style["boxShadow"] = "0 0 3px #CC0000";
+  } else if (isValid) {    
     errorMessage.style.display = 'none'; 
     node.style["boxShadow"] = "";
   } 
 }
 
-//checking if a name field is not empty
+function checkIfEmpty (nameInputField, messageForEmpty, errorMessage, isValid) {
+    const emptyString = /^ *$/;          //empty 
+    let userInput = nameInputField.value;
+    let isEmpty = emptyString.test(userInput); 
+    if (isEmpty) {        //check if the input is empty
+      addErrorSpan (nameInputField, messageForEmpty, isValid);    //show the message for empty input
+    } else if(!isEmpty) {
+      addErrorSpan (nameInputField, errorMessage, isValid); 
+    }
+}
+//checking if a name field is not empty and valid
 let validateName = false; 
 function isValidName () {
   const nameInputField = document.getElementById('name');
@@ -187,14 +182,7 @@ function isValidName () {
     let userInput = nameInputField.value;
     let isValid = /^(?!\s*$).+/.test(userInput);           //not an empty string
     validateName = isValid;
-    const emptyString = /^ *$/;          //empty 
-    let isEmpty = emptyString.test(userInput); 
-    if (isEmpty) {        //check if the input is empty
-      addErrorSpan (nameInputField, messageForEmpty, isValid);    //show the message for empty input
-    } else if(!isEmpty) {
-      addErrorSpan (nameInputField, errorMessage, isValid); 
-    }
-
+    checkIfEmpty(nameInputField, messageForEmpty, errorMessage, isValid);
   });
 }
 
@@ -208,37 +196,27 @@ function isValidEmail () {
      let isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userInput);
      const messageForEmpty = "Email field can't be empty.";     //message for empty input field
      validateMail = isValid;
-     const emptyString = /^ *$/;              //empty 
-     let isEmpty = emptyString.test(userInput);  //check if the input is empty
-     if (isEmpty) {
-      addErrorSpan (emailInputField, messageForEmpty, isValid);      //show the message for empty input
-     } else if(!isEmpty) {
-      addErrorSpan (emailInputField, errorMessage, isValid);
-     }
- 
+     checkIfEmpty (emailInputField, messageForEmpty, errorMessage, isValid);
   })
 }
 
 //checking if some activities are chosen
 let validateActivity = false;
 function isValidActivity () {
-
   $('.activities').change(function (event) {
   const checkboxes=document.querySelectorAll('.activities input');
   let isValid;
   let checkbox;
-  for(let i=0; i < checkboxes.length; i++)
-  {
+  for(let i=0; i < checkboxes.length; i++){
       checkbox = checkboxes[i];
       if(checkbox.checked)
       {
           isValid = true;
       }
   }
-
   errorMessage.textContent = 'Please choose some activities.';  
   const parent = document.querySelector('.activities');
-  const sibling = document.querySelectorAll('legent')[1];
+  const sibling = document.querySelectorAll('legend')[4];
   parent.insertBefore( errorMessage, sibling); 
   errorMessage.style.display = 'none';
          if (!isValid) {
@@ -250,15 +228,13 @@ function isValidActivity () {
         validateActivity = isValid;
 
       } else {
-        errorMessage.style.display = 'none';
-        
+        errorMessage.style.display = 'none';      
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = "";
           });
           validateActivity = isValid;
       }  
-  
-})
+  })
 }
 
 let validateCreditCardNum = false;
@@ -270,15 +246,8 @@ function isValidCreditCardNumber () {
     let userInput = creditCardInputField.value;
     let isValid = /^(\d){13,16}$/.test(userInput);
     validateCreditCardNum = isValid;
-    const emptyString = /^ *$/;         //empty 
-     let isEmpty = emptyString.test(userInput);
-    if (isEmpty) {                           //check if the input is empty
-      addErrorSpan (creditCardInputField, messageForEmpty , isValid);   //show the message for empty input
-     } else if(!isEmpty) {
-      addErrorSpan (creditCardInputField, errorMessage, isValid); 
-     }
+    checkIfEmpty (creditCardInputField, messageForEmpty, errorMessage, isValid);
   })
- 
 }
 
 //checking if zip is valid
@@ -292,14 +261,7 @@ function isValidZip () {
     let isValid = /^(\d){5}$/.test(userInput);
     addErrorSpan (zipInputField, errorMessage, isValid);
     validateZip = isValid;
-     const emptyString = /^ *$/;       //empty 
-    let isEmpty = emptyString.test(userInput);
-   if (isEmpty) {         //check if the input is empty
-     addErrorSpan (zipInputField, messageForEmpty , isValid);   //show the message for empty input
-    } else if(!isEmpty) {
-     addErrorSpan (zipInputField, errorMessage, isValid); 
-    }
-
+    checkIfEmpty(zipInputField, messageForEmpty, errorMessage, isValid);
   }) 
 }
 
@@ -314,14 +276,7 @@ function isValidCVV () {
     let isValid = /^(\d){3}$/.test(userInput);
     addErrorSpan (cvvInputField, errorMessage, isValid);
     validateCVV = isValid;
-    const emptyString = /^ *$/;   //empty 
-    let isEmpty = emptyString.test(userInput);
-    if (isEmpty) {                 //check if the input is empty
-     addErrorSpan (cvvInputField, messageForEmpty , isValid);  //show the message for empty input
-    } else if(!isEmpty) {
-     addErrorSpan (cvvInputField, errorMessage, isValid); 
-    }
-
+    checkIfEmpty(zipInputField, messageForEmpty, errorMessage, isValid);
   }) 
 }
 
