@@ -227,7 +227,7 @@ function isValidActivity () {
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
           });
-        validateActivity = isValid;
+        valideActivity = isValid;
 
       } else {
         errorMessage.style.display = 'none';      
@@ -322,7 +322,7 @@ let result = false;
 function submit () {
     event.preventDefault();
     isCreditCardNeeded();
-    if (validateName === true && valideMail === true && valideActivity === true && cardInfo === true) {
+    if (valideName === true && valideMail === true && valideActivity === true && cardInfo === true) {
       result = true;
     } else {
       result = false;
