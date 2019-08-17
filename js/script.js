@@ -127,7 +127,7 @@ $('.activities').change(function (event) {
 
 $('p').hide();  //initially hide payment info for paypal and bitcoin
 
-let creditCardIsChosen = false;     //will check if credit card is chosen
+let creditCardIsChosen = true;     //will check if credit card is chosen
 //when there is a change in 'design' field...
 $("#payment").change(function() { 
   $( '#payment [value="select method"]' ).hide();   //hide the 'select payment method' option
