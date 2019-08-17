@@ -222,13 +222,11 @@ function isValidActivity () {
   parent.insertBefore( errorMessage, sibling); 
   errorMessage.style.display = 'none';
          if (!isValid) {
-        errorMessage.style.display = 'block';
-        
+        errorMessage.style.display = 'block'; 
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
           });
         validActivity = isValid;
-
       } else {
         errorMessage.style.display = 'none';      
         $('.activities input').each ( function( index, value ) {
@@ -344,6 +342,14 @@ function submit () {
       } 
       if (validCVV === false) {
         $('#cvv').css('borderColor', 'red');
+      }
+      if (validActivity == false) {
+         $('.activities input').each ( function( index, value ) {
+          value.style["boxShadow"] = "0 0 3px #CC0000"; //change css style to red
+          });
+      }
+      if (validTshirt == false) {
+        $('#design').css('borderColor', 'red');
       }
       
     }
