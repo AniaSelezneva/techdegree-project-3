@@ -173,7 +173,7 @@ function checkIfEmpty (nameInputField, messageForEmpty, errorMessage, isValid) {
     }
 }
 //checking if a name field is not empty and valid
-let validateName = false; 
+let valideName = false; 
 function isValidName () {
   const nameInputField = document.getElementById('name');
   const errorMessage = 'Please type any name.';
@@ -181,13 +181,13 @@ function isValidName () {
   nameInputField.addEventListener("input", () => {
     let userInput = nameInputField.value;
     let isValid = /^(?!\s*$).+/.test(userInput);           //not an empty string
-    validateName = isValid;
+    valideName = isValid;
     checkIfEmpty(nameInputField, messageForEmpty, errorMessage, isValid);
   });
 }
 
 //checking if an email is valid
-let validateMail = false;
+let valideMail = false;
 function isValidEmail () {
   const emailInputField = document.getElementById('mail');
   const errorMessage = 'Please type a valid email.';
@@ -195,13 +195,13 @@ function isValidEmail () {
      let userInput = emailInputField.value;
      let isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userInput);
      const messageForEmpty = "Email field can't be empty.";     //message for empty input field
-     validateMail = isValid;
+     valideMail = isValid;
      checkIfEmpty (emailInputField, messageForEmpty, errorMessage, isValid);
   })
 }
 
 //checking if some activities are chosen
-let validateActivity = false;
+let valideActivity = false;
 function isValidActivity () {
   $('.activities').change(function (event) {
   const checkboxes=document.querySelectorAll('.activities input');
@@ -232,12 +232,12 @@ function isValidActivity () {
         $('.activities input').each ( function( index, value ) {
           value.style["boxShadow"] = "";
           });
-          validateActivity = isValid;
+          valideActivity = isValid;
       }  
   })
 }
 
-let validateCreditCardNum = false;
+let validaCreditCardNum = false;
 function isValidCreditCardNumber () {
   const creditCardInputField = document.getElementById('cc-num');
   const errorMessage = `Please check your credit card number, <br> it should contain between 13 and 16 digits.`;
@@ -245,13 +245,13 @@ function isValidCreditCardNumber () {
   creditCardInputField.addEventListener("input", () => {
     let userInput = creditCardInputField.value;
     let isValid = /^(\d){13,16}$/.test(userInput);
-    validateCreditCardNum = isValid;
+    valideCreditCardNum = isValid;
     checkIfEmpty (creditCardInputField, messageForEmpty, errorMessage, isValid);
   })
 }
 
 //checking if zip is valid
-let validateZip = false;
+let valideZip = false;
 function isValidZip () {
   const zipInputField = document.getElementById('zip');
   const errorMessage = 'Please check your zip, it should contain 5 digits.';
@@ -260,13 +260,13 @@ function isValidZip () {
     let userInput = zipInputField.value;
     let isValid = /^(\d){5}$/.test(userInput);
     addErrorSpan (zipInputField, errorMessage, isValid);
-    validateZip = isValid;
+    valideZip = isValid;
     checkIfEmpty(zipInputField, messageForEmpty, errorMessage, isValid);
   }) 
 }
 
 //cheching if a design is chosen
-let validateCVV = false;
+let valideCVV = false;
 function isValidCVV () {
   const cvvInputField = document.getElementById('cvv');
   const errorMessage = 'Please check your CVV, it should be 3 digits long.';
@@ -275,12 +275,12 @@ function isValidCVV () {
     let userInput = cvvInputField.value;
     let isValid = /^(\d){3}$/.test(userInput);
     addErrorSpan (cvvInputField, errorMessage, isValid);
-    validateCVV = isValid;
-    checkIfEmpty(zipInputField, messageForEmpty, errorMessage, isValid);
+    valideCVV = isValid;
+    checkIfEmpty(cvvInputField, messageForEmpty, errorMessage, isValid);
   }) 
 }
 
-let validateTshirt = false;
+let valideTshirt = false;
 function isValidTshirt () {
   const input = document.querySelector('#design');
   let isValid = true;
@@ -289,11 +289,11 @@ function isValidTshirt () {
   $('#design').on('change', function() { 
       if ($('#design').val() === "Select Theme") {   
         isValid = false;
-        validateTshirt = isValid;
+        valideTshirt = isValid;
         addErrorSpan (input, message, isValid);
       } else {
         isValid = true;
-        validateTshirt = isValid;
+        valideTshirt = isValid;
         addErrorSpan (input, message, isValid);
       }
     }
@@ -305,7 +305,7 @@ isValidName (); isValidEmail (); isValidActivity (); isValidTshirt (); isValidCr
 let cardInfo = false;
 function isCreditCardNeeded (){
   if (creditCardIsChosen === true) {    //if credit card is chosen
-    if ( validateCreditCardNum === true && validateZip === true && validateCVV === true) {  //check number, zip and cvv
+    if ( valideCreditCardNum === true && valideZip === true && valideCVV === true) {  //check number, zip and cvv
       cardInfo = true;
     } else {
       cardInfo = false;
@@ -320,7 +320,7 @@ let result = false;
 function submit () {
     event.preventDefault();
     isCreditCardNeeded();
-    if (validateName === true && validateMail === true && validateActivity === true && cardInfo === true) {
+    if (validateName === true && valideMail === true && valideActivity === true && cardInfo === true) {
       result = true;
     } else {
       result = false;
