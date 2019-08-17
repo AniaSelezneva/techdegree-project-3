@@ -267,7 +267,7 @@ function isValidZip () {
   }) 
 }
 
-//cheching if a design is chosen
+//checking if a design is chosen
 let validCVV = false;
 function isValidCVV () {
   const cvvInputField = document.getElementById('cvv');
@@ -326,6 +326,26 @@ function submit () {
       result = true;
     } else {
       result = false;
+      //change border color depending on what is invalid
+      if (validName == false) {
+        $('#name').css('borderColor', 'red');
+      }
+      if (validMail == false) {
+        $('#mail').css('borderColor', 'red');
+      }
+      if (validActivity == false) {
+        $('.activities label').css('borderColor', 'red');
+      } 
+      if (validCreditCardNum === false) {
+        $('#cc-num').css('borderColor', 'red');
+      }
+      if (validZip === false) {
+        $('#zip').css('borderColor', 'red');
+      } 
+      if (validCVV === false) {
+        $('#cvv').css('borderColor', 'red');
+      }
+      
     }
   }
 
