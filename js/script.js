@@ -29,7 +29,8 @@ $("#color").each (function(element) {
   $('#colors-js-puns').
     append('<select id="remove-me-later"><option value="no_design_message">Please select a T-shirt theme</option><select>');
 } 
-  
+
+const firstOption = document.querySelector('#design option');  //get first option which should be removed later
 //when something is chosen from the "Design" menu, "Color" appears normally again
 function showColors() {
   hideColorsAndShowMessage();
@@ -39,13 +40,10 @@ function showColors() {
 
       if ($('#design').val() !== "Select Theme") {   //if chosen design value is a real design an not 'select theme' message
       $("#color").each (function(element) {    
-        $(this).slideDown();                              //options are shown          
+        $(this).slideDown(); 
+        firstOption.remove();  //remove 'chose theme' option        
       });
-    } else {
-        hideColorsAndShowMessage();
-        $('#select-warning').hide();
-        $('#colors-js-puns').hide();  //hide the "Color" label and select menu 
-    }
+    } 
   });
 }
 
@@ -327,21 +325,26 @@ function submit () {
       //change border color depending on what is invalid
       if (validName == false) {
         $('#name').css('borderColor', 'red');
+        $('#name').attr('placeholder', 'Please enter a name...');
       }
       if (validMail == false) {
         $('#mail').css('borderColor', 'red');
+        $('#mail').attr('placeholder', 'Please enter an email...');
       }
       if (validActivity == false) {
         $('.activities label').css('borderColor', 'red');
       } 
       if (validCreditCardNum === false) {
         $('#cc-num').css('borderColor', 'red');
+        $('#cc-num').attr('placeholder', 'Enter a credit card number...');
       }
       if (validZip === false) {
         $('#zip').css('borderColor', 'red');
+        $('#zip').attr('placeholder', 'Enter zip...');
       } 
       if (validCVV === false) {
         $('#cvv').css('borderColor', 'red');
+        $('#cvv').attr('placeholder', 'Enter cvv...');
       }
       if (validActivity == false) {
          $('.activities input').each ( function( index, value ) {
