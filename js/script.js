@@ -334,6 +334,14 @@ function submit () {
       }
       if (validActivity == false) {
         $('.activities label').css('borderColor', 'red');
+
+        errorMessage.textContent = 'Please choose some activities.';      //show message to choose some activity
+        const parent = document.querySelector('.activities');
+        const sibling = document.querySelectorAll('legend')[4];
+        parent.insertBefore( errorMessage, sibling); 
+        errorMessage.style.display = 'none';
+        errorMessage.style.display = 'block'; 
+
       } 
       if (validCreditCardNum === false) {
         $('#cc-num').css('borderColor', 'red');
@@ -355,12 +363,16 @@ function submit () {
       if (validTshirt == false) {
         $('#design').css('borderColor', 'red');
       }
-      
     }
   }
 
 //event listener for button click
 document.querySelector('button').addEventListener('click', (event) => { 
-  submit();
-  console.log(result);
+    submit();
+  if(result) {   //if everything is valid
+    document.querySelector('form').submit();
+  } else if (!result) {    
+    event.preventDefault();
+    console.log('not valid');
+  }
 })
