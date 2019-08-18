@@ -282,16 +282,15 @@ function isValidCVV () {
 let validTshirt = false;
 function isValidTshirt () {
   const input = document.querySelector('#design');
-  let isValid = true;
   const message = 'Please pick a T-shirt design.';
 
   $('#design').on('change', function() { 
-      if ($('#design').val() === "Select Theme") {   
-        isValid = false;
+      if ($('#design').val() == "Select Theme") {   
+        let isValid = false;
         validTshirt = isValid;
         addErrorSpan (input, message, isValid);
       } else {
-        isValid = true;
+        let isValid = true;
         validTshirt = isValid;
         addErrorSpan (input, message, isValid);
       }
@@ -319,7 +318,7 @@ let result = false;
 function submit () {
     event.preventDefault();
     isCreditCardNeeded();
-    if (validName === true && validMail === true && validActivity === true && cardInfo === true) {
+    if (validName === true && validMail === true && validActivity === true && validTshirt == true && cardInfo === true) {
       result = true;
     } else {
       result = false;
