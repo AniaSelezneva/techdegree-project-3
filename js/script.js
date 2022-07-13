@@ -1,34 +1,4 @@
-/******************************************
-Hi. I am going for "Exceeds Expectations" grade, but if it doesn't exceed I will be okay with "Meets Expectations" grade.
-Inputs have different error messages depending on the error and they have "real time" validation messages.
-Thank you.
-******************************************/
-
-$("#name").focus();     //focus on name field
-$("form #other-title").css('display', 'none');   //hide 'other' input field
-
-//when there is some change in the title field we show or hide 'other' input field depending on the selected option
-$("#title").change(function() {  
-    if ($('#title').val() == "other") {   
-     $("form #other-title").slideDown();
-    } else {
-      $("form #other-title").slideUp();
-    }
-  }
-)
-
-$('#color').prepend($('<option id="select-warning">Please select a color</option>'));  //add option 'select color' to colors
-$('#select-warning').hide();
-$('#colors-js-puns').hide();  //hide the "Color" label and select menu 
-
-//function that hides all the color options and shows a message 'select a theme'
-function hideColorsAndShowMessage () {
-$("#color").each (function(element) { 
-    $(this).hide();
-  });
-  $('#colors-js-puns').
-    append('<select id="remove-me-later"><option value="no_design_message">Please select a T-shirt theme</option><select>');
-} 
+jjjkjdkfjldjfklfjldjfldfjdklfjdljfdklfjkdfjld
 
 const firstOption = document.querySelector('#design option');  //get first option which should be removed later
 //when something is chosen from the "Design" menu, "Color" appears normally again
