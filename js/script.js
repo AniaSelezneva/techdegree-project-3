@@ -1,4 +1,4 @@
-ai
+ai ai ai
 
 const firstOption = document.querySelector('#design option');  //get first option which should be removed later
 //when something is chosen from the "Design" menu, "Color" appears normally again
